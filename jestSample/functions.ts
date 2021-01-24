@@ -35,4 +35,18 @@ export const getFirstNameThrowIfLong = async (
     throw new Error("first_name too long");
   }
   return firstName;
+  
+//   let firstName = "";
+//   try {
+//       firstName = await nameApiSerivce.getFirstName();
+    
+//       return firstName;
+//     } catch (error) {
+//       console.log("thorwww")
+//       console.log(firstName)
+//       console.log(firstName.length)
+// }
+// console.log("I arraived!")
+// return firstName;
+
 };
