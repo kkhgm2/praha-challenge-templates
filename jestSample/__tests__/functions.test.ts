@@ -1,19 +1,25 @@
 import { sumOfArray } from '../functions'
 
-test("success sumOfArray", () => {
-    expect(sumOfArray([1, 2, 3])).toBe(6);
-})
+describe('sumOfArray', () => {
 
-test("input string array sumOfArray is going to throw", () => {
-    //関数の中のコードはラップしてください。そうしなければエラーが補足されず、アサーションは失敗します。
-    //https://jestjs.io/docs/ja/expect#tothrowerror
-    expect(() => sumOfArray([])).toThrow();
+    test("success sumOfArray", () => {
+        expect(sumOfArray([1, 2, 3])).toBe(6);
+    })
+    
+    test("input string array sumOfArray is going to throw", () => {
+        //関数の中のコードはラップしてください。そうしなければエラーが補足されず、アサーションは失敗します。
+        //https://jestjs.io/docs/ja/expect#tothrowerror
+        // 元コード
+        // expect(() => sumOfArray([])).toThrow();
+        // 修正コード
+        expect(sumOfArray([])).toBe(0);
+    })
+    
+    //引数が１つの時は？
+    test("input string array sumOfArray is going to throw", () => {
+        expect(sumOfArray([1])).toBe(1);
+    })
 })
-
-//引数が１つの時は？
-// test("input string array sumOfArray is going to throw", () => {
-//     expect(sumOfArray([1])).toBe(1);
-// })
 
 import { asyncSumOfArray } from '../functions'
 test("success asyncSumOfArray", () => {
