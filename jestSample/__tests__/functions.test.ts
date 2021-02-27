@@ -30,6 +30,7 @@ test("success asyncSumOfArray", () => {
 
 import { asyncSumOfArraySometimesZero } from '../functions'
 import { DatabaseMock } from '../util/index'
+const database = new DatabaseMock();
 describe('asyncSumOfArraySometimesZero test', () => {
 
     //通常時の想定（save メソッドがthrow しない時）
@@ -37,7 +38,7 @@ describe('asyncSumOfArraySometimesZero test', () => {
         // save をオーバーライド
         const dbMock = jest.spyOn(DatabaseMock.prototype, 'save').mockReturnValue();
         
-        return  asyncSumOfArraySometimesZero([4,5,6])
+        return  asyncSumOfArraySometimesZero([4,5,6], database)
         .then(sumeResult => {
             expect(sumeResult).toBe(15);
         })
@@ -51,12 +52,14 @@ describe('asyncSumOfArraySometimesZero test', () => {
         
         // asyncSumOfArraySometimesZero 失敗時、resolve使用されており、rejectではない。
         // 失敗でなく、成功として返されている！！！
-        return expect(asyncSumOfArraySometimesZero([1,2,3])).resolves.toBe(0);
+        return expect(asyncSumOfArraySometimesZero([1,2,3], database)).resolves.toBe(0);
     })
 })
     
 import { getFirstNameThrowIfLong } from '../functions'
 import { NameApiService } from '../nameApiService'
+const nameApiSerivce = new NameApiService();
+
 describe('getFirstNameThrowIfLong test', () => {
 
     test("success getFirstNameThrowIfLong", () => {
@@ -66,7 +69,7 @@ describe('getFirstNameThrowIfLong test', () => {
         const getNameMock = 
         jest.spyOn(NameApiService.prototype, 'getFirstName').mockResolvedValue("koki");
         
-        return expect(getFirstNameThrowIfLong(5)).resolves.toBe("koki");
+        return expect(getFirstNameThrowIfLong(5, nameApiSerivce)).resolves.toBe("koki");
     })
 
     test("failed getFirstNameThrowIfLong", () => {
@@ -76,7 +79,7 @@ describe('getFirstNameThrowIfLong test', () => {
         jest.spyOn(NameApiService.prototype, 'getFirstName').mockResolvedValue("koki");
         
         //getFirstNameThrowIfLongのif 文でthrow 想定
-        return expect(getFirstNameThrowIfLong(3)).rejects.toThrow('first_name too long');
+        return expect(getFirstNameThrowIfLong(3, nameApiSerivce)).rejects.toThrow('first_name too long');
     })
     
     test("failed NameApiService", () => {
@@ -87,7 +90,7 @@ describe('getFirstNameThrowIfLong test', () => {
         jest.spyOn(NameApiService.prototype, 'getFirstName')
         .mockImplementation(() => { throw new Error('faile!')});
         
-        return expect(getFirstNameThrowIfLong(5)).rejects.toThrow('faile!');
+        return expect(getFirstNameThrowIfLong(5, nameApiSerivce)).rejects.toThrow('faile!');
     })
 })
     
